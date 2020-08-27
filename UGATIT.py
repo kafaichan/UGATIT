@@ -2,7 +2,7 @@ from ops import *
 from utils import *
 from glob import glob
 import time
-from tensorflow.contrib.data import prefetch_to_device, shuffle_and_repeat, map_and_batch
+import tensorflow as tf
 import numpy as np
 
 class UGATIT(object) :
@@ -59,7 +59,6 @@ class UGATIT(object) :
         self.sample_dir = os.path.join(args.sample_dir, self.model_dir)
         check_folder(self.sample_dir)
 
-        # self.trainA, self.trainB = prepare_data(dataset_name=self.dataset_name, size=self.img_size
         self.trainA_dataset = glob('./dataset/{}/*.*'.format(self.dataset_name + '/trainA'))
         self.trainB_dataset = glob('./dataset/{}/*.*'.format(self.dataset_name + '/trainB'))
         self.dataset_num = max(len(self.trainA_dataset), len(self.trainB_dataset))

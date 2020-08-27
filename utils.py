@@ -1,5 +1,4 @@
 import tensorflow as tf
-from tensorflow.contrib import slim
 import cv2
 import os, random
 import numpy as np
@@ -12,9 +11,9 @@ class ImageData:
         self.augment_flag = augment_flag
 
     def image_processing(self, filename):
-        x = tf.read_file(filename)
+        x = tf.io.read_file(filename)
         x_decode = tf.image.decode_jpeg(x, channels=self.channels)
-        img = tf.image.resize_images(x_decode, [self.load_size, self.load_size])
+        img = tf.image.resize(x_decode, [self.load_size, self.load_size])
         img = tf.cast(img, tf.float32) / 127.5 - 1
 
         if self.augment_flag :
@@ -66,10 +65,6 @@ def merge(images, size):
         img[h*j:h*(j+1), w*i:w*(i+1), :] = image
 
     return img
-
-def show_all_variables():
-    model_vars = tf.trainable_variables()
-    slim.model_analyzer.analyze_vars(model_vars, print_info=True)
 
 def check_folder(log_dir):
     if not os.path.exists(log_dir):

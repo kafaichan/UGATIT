@@ -85,22 +85,18 @@ def main():
       exit()
 
     # open session
-    with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as sess:
-        gan = UGATIT(sess, args)
+    gan = UGATIT(sess, args)
 
-        # build graph
-        gan.build_model()
+    # build graph
+    gan.build_model()
 
-        # show network architecture
-        show_all_variables()
+    if args.phase == 'train' :
+        gan.train()
+        print(" [*] Training finished!")
 
-        if args.phase == 'train' :
-            gan.train()
-            print(" [*] Training finished!")
-
-        if args.phase == 'test' :
-            gan.test()
-            print(" [*] Test finished!")
+    if args.phase == 'test' :
+        gan.test()
+        print(" [*] Test finished!")
 
 if __name__ == '__main__':
     main()
